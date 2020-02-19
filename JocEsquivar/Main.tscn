@@ -1,9 +1,12 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Main.gd" type="Script" id=2]
 [ext_resource path="res://Mob.tscn" type="PackedScene" id=3]
 [ext_resource path="res://HUD.tscn" type="PackedScene" id=4]
+[ext_resource path="res://art/gameover.wav" type="AudioStream" id=5]
+[ext_resource path="res://art/House In a Forest Loop.ogg" type="AudioStream" id=6]
+[ext_resource path="res://art/wallpaperperjoc.jpg" type="Texture" id=7]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -14,15 +17,17 @@ _data = {
 script = ExtResource( 2 )
 Mob = ExtResource( 3 )
 
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 211.712, 306.982 )
+texture = ExtResource( 7 )
+
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 68.003, 102.389 )
 
 [node name="MobTimer" type="Timer" parent="."]
 wait_time = 0.5
-one_shot = true
 
 [node name="ScoreTimer" type="Timer" parent="."]
-one_shot = true
 
 [node name="StartTimer" type="Timer" parent="."]
 wait_time = 2.0
@@ -39,8 +44,14 @@ position = Vector2( -1.21735, -0.877106 )
 rotation = -0.00313478
 
 [node name="HUD" parent="." instance=ExtResource( 4 )]
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+
+[node name="DeathSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
 [connection signal="hit" from="Player" to="." method="game_over"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_MobTimer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]
 [connection signal="timeout" from="StartTimer" to="." method="_on_StartTimer_timeout"]
-[connection signal="start_game" from="HUD" to="." method="new_game"]
+[connection signal="start_game" from="HUD" to="." method="_on_HUD_start_game"]
