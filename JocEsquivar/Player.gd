@@ -10,7 +10,7 @@ func _ready():
 	hide()
 	screen_size = get_viewport_rect().size
 
-	
+	 
 func _process(delta):
 	var velocity = Vector2()  # The player's movement vector.
 	if Input.is_action_pressed("ui_right"):
